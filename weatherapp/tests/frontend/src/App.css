@@ -1,0 +1,150 @@
+/* Glass Card */
+.glass-card {
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(40px) saturate(1.5);
+    -webkit-backdrop-filter: blur(40px) saturate(1.5);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.dark .glass-card {
+    background: rgba(0, 0, 0, 0.42);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.glass-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+.dark .glass-card:hover {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Neumorphic elements */
+.neu-button {
+    border-radius: 9999px;
+    transition: all 0.2s ease;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.06), -4px -4px 10px rgba(255, 255, 255, 0.7);
+}
+
+.dark .neu-button {
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.35), -4px -4px 10px rgba(255, 255, 255, 0.04);
+}
+
+.neu-button:active {
+    box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.06), inset -4px -4px 10px rgba(255, 255, 255, 0.7);
+    transform: scale(0.97);
+}
+
+.dark .neu-button:active {
+    box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.35), inset -4px -4px 10px rgba(255, 255, 255, 0.04);
+}
+
+.neu-inset {
+    box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.05), inset -4px -4px 10px rgba(255, 255, 255, 0.7);
+}
+
+.dark .neu-inset {
+    box-shadow: inset 4px 4px 10px rgba(0, 0, 0, 0.35), inset -4px -4px 10px rgba(255, 255, 255, 0.04);
+}
+
+/* Weather background overlay */
+.weather-bg-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-size: cover;
+    background-position: center;
+    transition: background-image 1s ease-in-out;
+}
+
+.weather-bg-overlay::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.dark .weather-bg-overlay::after {
+    background: rgba(0, 0, 0, 0.35);
+}
+
+/* Rain animation */
+.rain-drop {
+    position: absolute;
+    width: 2px;
+    background: linear-gradient(transparent, rgba(174, 194, 224, 0.5));
+    animation: rain-fall linear infinite;
+    pointer-events: none;
+}
+
+@keyframes rain-fall {
+    0% { transform: translateY(-100vh); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translateY(100vh); opacity: 0; }
+}
+
+/* Staggered entrance */
+.stagger-1 { animation-delay: 0ms; }
+.stagger-2 { animation-delay: 60ms; }
+.stagger-3 { animation-delay: 120ms; }
+.stagger-4 { animation-delay: 180ms; }
+.stagger-5 { animation-delay: 240ms; }
+.stagger-6 { animation-delay: 300ms; }
+.stagger-7 { animation-delay: 360ms; }
+.stagger-8 { animation-delay: 420ms; }
+
+/* Shimmer skeleton */
+.skeleton-shimmer {
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.1) 25%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.1) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* Horizontal scroll hide scrollbar on mobile */
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Temperature display */
+.temp-display {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.04em;
+}
+
+/* Segmented control */
+.segment-control {
+    position: relative;
+    display: inline-flex;
+    padding: 3px;
+    border-radius: 9999px;
+}
+
+.segment-pill {
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    border-radius: 9999px;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}

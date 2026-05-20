@@ -1,0 +1,79 @@
+{
+  "project_domain": "Weather Dashboard",
+  "theme": "Auto-detect (Light/Dark Mode)",
+  "archetype": "Primary: Archetype 3 (Pastel & Soft) for Light Mode, Archetype 5 (Jewel & Luxury) for Dark Mode",
+  "design_philosophy": "A visually immersive, emotionally resonant weather dashboard. It blends the optical clarity of 'Crystal Glass' (Glassmorphism) for data containers with the tactile, satisfying feedback of Neumorphism for interactive elements like toggles and buttons.",
+  "typography": {
+    "heading_font": "Manrope",
+    "body_font": "Figtree",
+    "rules": {
+      "h1": "text-5xl sm:text-6xl lg:text-7xl tracking-tighter font-medium leading-none",
+      "h2": "text-3xl sm:text-4xl tracking-tight font-medium",
+      "h3": "text-xl sm:text-2xl tracking-tight",
+      "h4": "text-lg font-semibold",
+      "body": "text-base leading-relaxed",
+      "labels": "text-xs font-bold uppercase tracking-[0.2em]"
+    }
+  },
+  "colors": {
+    "light_mode": {
+      "text": "text-slate-900",
+      "text_muted": "text-slate-600",
+      "accent": "text-sky-500",
+      "glass_bg": "bg-white/40",
+      "glass_border": "border-white/50",
+      "neumorphic_shadow": "shadow-[4px_4px_10px_rgba(0,0,0,0.05),-4px_-4px_10px_rgba(255,255,255,0.8)]",
+      "neumorphic_inner": "shadow-[inset_4px_4px_10px_rgba(0,0,0,0.05),inset_-4px_-4px_10px_rgba(255,255,255,0.8)]"
+    },
+    "dark_mode": {
+      "text": "text-white",
+      "text_muted": "text-white/70",
+      "accent": "text-sky-400",
+      "glass_bg": "bg-black/30",
+      "glass_border": "border-white/10",
+      "neumorphic_shadow": "shadow-[4px_4px_10px_rgba(0,0,0,0.4),-4px_-4px_10px_rgba(255,255,255,0.05)]",
+      "neumorphic_inner": "shadow-[inset_4px_4px_10px_rgba(0,0,0,0.4),inset_-4px_-4px_10px_rgba(255,255,255,0.05)]"
+    }
+  },
+  "surface_strategies": {
+    "crystal_glass_cards": "backdrop-blur-2xl backdrop-saturate-150 rounded-3xl p-6 transition-all duration-300 border shadow-lg",
+    "interactive_elements": "hover:-translate-y-1 hover:shadow-xl transition-all duration-300 cursor-pointer",
+    "neumorphism_toggles": "rounded-full p-1 transition-all duration-300"
+  },
+  "layout": {
+    "type": "Control Room Grid (Mode B - Adapted for Weather)",
+    "container": "max-w-7xl mx-auto p-4 md:p-8 space-y-8",
+    "grid": "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6",
+    "spans": {
+      "current_weather": "col-span-1 md:col-span-2 lg:col-span-2 row-span-2",
+      "hourly_forecast": "col-span-1 md:col-span-2 lg:col-span-2 row-span-1",
+      "weekly_forecast": "col-span-1 md:col-span-1 lg:col-span-1 row-span-2",
+      "metrics_tiles": "col-span-1 row-span-1"
+    }
+  },
+  "motion": {
+    "hover": "transition-all duration-300 ease-out",
+    "entrance": "staggered fade-up for grid items using framer-motion",
+    "active": "active:scale-95 duration-100"
+  },
+  "media": {
+    "background_strategy": "Full viewport fixed image with object-cover, acting as a dynamic background based on weather condition. MUST include a subtle overlay (e.g., bg-black/20) to guarantee text contrast.",
+    "image_urls": {
+      "sunny": "https://images.unsplash.com/photo-1757169083847-bc8ce4868d05",
+      "cloudy": "https://images.unsplash.com/photo-1761958150550-556b82335e0a",
+      "rainy": "https://images.unsplash.com/photo-1511634829096-045a111727eb",
+      "night": "https://images.unsplash.com/photo-1641895958846-19dab3471449",
+      "default": "https://images.unsplash.com/photo-1757169083847-bc8ce4868d05"
+    }
+  },
+  "components_instructions": {
+    "icons": "Use lucide-react. Increase stroke width to 2.5 for weather condition icons to make them prominent and match the Manrope font's geometry.",
+    "search_bar": "Pill-shaped input with a crystal glass background, inner neumorphic shadow for depth, prominent search icon, and a floating dropdown for city results.",
+    "dark_light_toggle": "Tactile, neumorphic pill switch with sun/moon icons. Must have clear active/inactive states.",
+    "c_f_toggle": "A segmented control button using a glass background and a solid white/black active state pill that slides.",
+    "favorite_cities": "Horizontal scrollable list of small glass pills situated above the main bento grid.",
+    "aqi_meter": "Custom gradient horizontal progress bar (Green -> Yellow -> Red) with a marker indicating current Air Quality Index.",
+    "sunrise_sunset": "Use a subtle SVG arc with a glowing sun icon placed dynamically along the path.",
+    "testing": "All interactive elements MUST include `data-testid` attribute (e.g., `data-testid=\"search-input\"`, `data-testid=\"cf-toggle\"`)."
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "summary": {
+    "total_tests": 9,
+    "passed_tests": 9,
+    "success_rate": 100.0,
+    "timestamp": "2026-04-14T03:44:52.687660"
+  },
+  "test_results": [
+    {
+      "test": "Root API Endpoint",
+      "endpoint": "",
+      "method": "GET",
+      "expected_status": 200,
+      "actual_status": 200,
+      "success": true,
+      "response_preview": "OK"
+    },
+    {
+      "test": "Current Weather by Coordinates",
+      "endpoint": "weather/current",
+      "method": "GET",
+      "expected_status": 200,
+      "actual_status": 200,
+      "success": true,
+      "response_preview": "OK"
+    },
+    {
+      "test": "Current Weather by City",
+      "endpoint": "weather/current",
+      "method": "GET",
+      "expected_status": 200,
+      "actual_status": 200,
+      "success": true,
+      "response_preview": "OK"
+    },
+    {
+      "test": "Weather Forecast",
+      "endpoint": "weather/forecast",
+      "method": "GET",
+      "expected_status": 200,
+      "actual_status": 200,
+      "success": true,
+      "response_preview": "OK"
+    },
+    {
+      "test": "Air Quality",
+      "endpoint": "weather/air-quality",
+      "method": "GET",
+      "expected_status": 200,
+      "actual_status": 200,
+      "success": true,
+      "response_preview": "OK"
+    },
+    {
+      "test": "Geocode City",
+      "endpoint": "weather/geocode",
+      "method": "GET",
+      "expected_status": 200,
+      "actual_status": 200,
+      "success": true,
+      "response_preview": "OK"
+    },
+    {
+      "test": "Get Favorites",
+      "endpoint": "favorites",
+      "method": "GET",
+      "expected_status": 200,
+      "actual_status": 200,
+      "success": true,
+      "response_preview": "OK"
+    },
+    {
+      "test": "Add Favorite",
+      "endpoint": "favorites",
+      "method": "POST",
+      "expected_status": 200,
+      "actual_status": 200,
+      "success": true,
+      "response_preview": "OK"
+    },
+    {
+      "test": "Delete Favorite",
+      "endpoint": "favorites/01273a5c-709b-4026-8531-b661745acee4",
+      "method": "DELETE",
+      "expected_status": 200,
+      "actual_status": 200,
+      "success": true,
+      "response_preview": "OK"
+    }
+  ]
+}

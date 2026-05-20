@@ -1,0 +1,132 @@
+import { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import * as api from '@/lib/weatherApi';
+import { toast } from 'sonner';
+
+const WeatherContext = createContext();
+
+/** Handles all weather API fetching + geolocation */
+function useWeatherData() {
+  const [currentWeather, setCurrentWeather] = useState(null);
+  const [forecast, setForecast] = useState(null);
+  const [airQuality, setAirQuality] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [apiKeyMissing, setApiKeyMissing] = useState(false);
+
+  const fetchWeatherData = useCallback(async (lat, lon) => {
+    setLoading(true);
+    setError(null);
+    setApiKeyMissing(false);
+    try {
+      const [weather, forecastData, aqiData] = await Promise.all([
+        api.getCurrentWeather(lat, lon),
+        api.getForecast(lat, lon),
+        api.getAirQuality(lat, lon),
+      ]);
+      setCurrentWeather(weather);
+      setForecast(forecastData);
+      setAirQuality(aqiData);
+    } catch (err) {
+      const status = err?.response?.status;
+      if (status === 503) {
+        setApiKeyMissing(true);
+      } else {
+        setError(err?.response?.data?.detail || err.message || 'Failed to load weather');
+        toast.error('Failed to load weather data');
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!navigator.geolocation) {
+      fetchWeatherData(51.5074, -0.1278);
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => fetchWeatherData(pos.coords.latitude, pos.coords.longitude),
+      () => fetchWeatherData(51.5074, -0.1278)
+    );
+  }, [fetchWeatherData]);
+
+  return { currentWeather, forecast, airQuality, loading, error, apiKeyMissing, fetchWeatherData };
+}
+
+/** Handles favorites CRUD with MongoDB */
+function useFavorites() {
+  const [favorites, setFavorites] = useState([]);
+
+  useEffect(() => {
+    api.getFavorites()
+      .then(setFavorites)
+      .catch((err) => console.warn('Failed to load favorites:', err));
+  }, []);
+
+  const addFavorite = useCallback(async (cityData) => {
+    try {
+      const fav = await api.addFavorite(cityData);
+      setFavorites(prev => {
+        if (prev.find(f => f.id === fav.id)) return prev;
+        return [...prev, fav];
+      });
+      toast.success(`${cityData.city_name} added to favorites`);
+    } catch (err) {
+      console.warn('Failed to add favorite:', err);
+      toast.error('Failed to add favorite');
+    }
+  }, []);
+
+  const removeFavorite = useCallback(async (id) => {
+    try {
+      await api.removeFavorite(id);
+      setFavorites(prev => prev.filter(f => f.id !== id));
+      toast.success('Removed from favorites');
+    } catch (err) {
+      console.warn('Failed to remove favorite:', err);
+      toast.error('Failed to remove favorite');
+    }
+  }, []);
+
+  return { favorites, addFavorite, removeFavorite };
+}
+
+export function WeatherProvider({ children }) {
+  const weatherData = useWeatherData();
+  const favoritesData = useFavorites();
+  const [unit, setUnit] = useState('metric');
+  const [locationOverride, setLocationOverride] = useState(null);
+
+  const { fetchWeatherData } = weatherData;
+
+  const selectCity = useCallback(async (lat, lon, cityName) => {
+    setLocationOverride(cityName || null);
+    await fetchWeatherData(lat, lon);
+  }, [fetchWeatherData]);
+
+  const toggleUnit = useCallback(() => {
+    setUnit(prev => prev === 'metric' ? 'imperial' : 'metric');
+  }, []);
+
+  const value = useMemo(() => ({
+    currentWeather: weatherData.currentWeather,
+    forecast: weatherData.forecast,
+    airQuality: weatherData.airQuality,
+    loading: weatherData.loading,
+    error: weatherData.error,
+    apiKeyMissing: weatherData.apiKeyMissing,
+    fetchWeatherData: weatherData.fetchWeatherData,
+    favorites: favoritesData.favorites,
+    addFavorite: favoritesData.addFavorite,
+    removeFavorite: favoritesData.removeFavorite,
+    unit, selectCity, toggleUnit, locationOverride,
+  }), [weatherData, favoritesData, unit, selectCity, toggleUnit, locationOverride]);
+
+  return (
+    <WeatherContext.Provider value={value}>
+      {children}
+    </WeatherContext.Provider>
+  );
+}
+
+export const useWeather = () => useContext(WeatherContext);
